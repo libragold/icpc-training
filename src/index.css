@@ -1,0 +1,31 @@
+/* Import Pico CSS */
+@import "@picocss/pico";
+
+/* Custom styles */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] {
+  --primary: #646cff;
+}
+
+/* Animation for logo */
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
