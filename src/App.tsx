@@ -14,7 +14,6 @@ interface ProblemStates {
 }
 
 const TEAM_MEMBERS = ['TG', 'BJ', 'SR'];
-const ACTIONS: ('idle' | 'solve' | 'code')[] = ['idle', 'solve', 'code'];
 
 function formatTime(seconds: number): string {
   const hours = Math.floor(seconds / 3600);
@@ -24,18 +23,68 @@ function formatTime(seconds: number): string {
 }
 
 function App() {
-  const [numProblems, setNumProblems] = useState<number | ''>('');
-  const [isNumProblemsLocked, setIsNumProblemsLocked] = useState(false);
-  const [time, setTime] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
-  const [teamActions, setTeamActions] = useState<TeamActions>({
-    TG: { action: 'idle' },
-    BJ: { action: 'idle' },
-    SR: { action: 'idle' },
+  const [numProblems, setNumProblems] = useState<number | ''>(() => {
+    const saved = localStorage.getItem('numProblems');
+    return saved ? parseInt(saved) : '';
   });
-  const [problemStates, setProblemStates] = useState<ProblemStates>({});
-  const [logs, setLogs] = useState<string[]>([]);
+  const [isNumProblemsLocked, setIsNumProblemsLocked] = useState(() => {
+    return localStorage.getItem('isNumProblemsLocked') === 'true';
+  });
+  const [time, setTime] = useState(() => {
+    const saved = localStorage.getItem('time');
+    return saved ? parseInt(saved) : 0;
+  });
+  const [isRunning, setIsRunning] = useState(() => {
+    return localStorage.getItem('isRunning') === 'true';
+  });
+  const [teamActions, setTeamActions] = useState<TeamActions>(() => {
+    const saved = localStorage.getItem('teamActions');
+    return saved ? JSON.parse(saved) : {
+      TG: { action: 'idle' },
+      BJ: { action: 'idle' },
+      SR: { action: 'idle' },
+    };
+  });
+  const [problemStates, setProblemStates] = useState<ProblemStates>(() => {
+    const saved = localStorage.getItem('problemStates');
+    return saved ? JSON.parse(saved) : {};
+  });
+  const [logs, setLogs] = useState<string[]>(() => {
+    const saved = localStorage.getItem('logs');
+    return saved ? JSON.parse(saved) : [];
+  });
   const [showDialog, setShowDialog] = useState<string | null>(null);
+
+  // Save states to localStorage whenever they change
+  useEffect(() => {
+    if (numProblems !== '') {
+      localStorage.setItem('numProblems', String(numProblems));
+    }
+  }, [numProblems]);
+
+  useEffect(() => {
+    localStorage.setItem('isNumProblemsLocked', String(isNumProblemsLocked));
+  }, [isNumProblemsLocked]);
+
+  useEffect(() => {
+    localStorage.setItem('time', String(time));
+  }, [time]);
+
+  useEffect(() => {
+    localStorage.setItem('isRunning', String(isRunning));
+  }, [isRunning]);
+
+  useEffect(() => {
+    localStorage.setItem('teamActions', JSON.stringify(teamActions));
+  }, [teamActions]);
+
+  useEffect(() => {
+    localStorage.setItem('problemStates', JSON.stringify(problemStates));
+  }, [problemStates]);
+
+  useEffect(() => {
+    localStorage.setItem('logs', JSON.stringify(logs));
+  }, [logs]);
 
   // Timer effect
   useEffect(() => {
