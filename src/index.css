@@ -3,29 +3,29 @@
 
 /* Custom styles */
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0;
+}
+
+table thead th {
   text-align: center;
+  max-width: 80px;
+  padding: 0.5rem;
 }
 
-/* Dark theme adjustments */
-[data-theme="dark"] {
-  --primary: #646cff;
+table tbody td {
+  padding: 0.5rem;
 }
 
-/* Animation for logo */
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+input[type="radio"] {
+  margin-right: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+input[type="checkbox"] {
+  margin-left: 0.4rem;
+  margin-right: 0rem;
+}
+
+button {
+  padding: 0.25rem 0.75rem;
 }
